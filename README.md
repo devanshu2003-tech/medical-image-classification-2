@@ -10,9 +10,9 @@ Pituitary Tumor
 
 No Tumor
 
-The project uses a Convolutional Neural Network (CNN) with TensorFlow/Keras for image classification and a Streamlit web application for interactive predictions.
+The project uses a Convolutional Neural Network (CNN) built with TensorFlow/Keras for image classification and a Streamlit web application for interactive predictions.
 
-Disclaimer: This project is developed for educational and learning purposes. It is not intended to replace professional medical diagnosis or clinical decision-making.
+⚠️ Medical Disclaimer: This project is developed for educational and learning purposes. It is not intended to replace professional medical diagnosis, clinical examination, or treatment decisions.
 
 📌 Project Overview
 
@@ -20,9 +20,10 @@ Brain MRI analysis can be time-consuming and requires specialized medical expert
 
 The system takes an MRI image as input, preprocesses the image, passes it through the trained CNN model, and returns the predicted brain tumor category along with a confidence score.
 
-The project covers an end-to-end Deep Learning workflow:
+End-to-End Workflow
 
-Dataset → Preprocessing → Data Augmentation → CNN Model → Training → Evaluation → Model Saving → Streamlit Deployment → Prediction
+Dataset → Image Preprocessing → Data Augmentation → CNN Model
+→ Training → Evaluation → Model Saving → Streamlit Deployment → Prediction
 
 🎯 Objectives
 
@@ -30,7 +31,7 @@ Develop a Deep Learning model for Brain MRI image classification.
 
 Classify MRI images into four categories.
 
-Preprocess MRI images by resizing and normalization.
+Resize and normalize MRI images before prediction.
 
 Train and evaluate a CNN model using TensorFlow and Keras.
 
@@ -38,13 +39,13 @@ Save the trained model for future predictions.
 
 Build an interactive Streamlit web application.
 
-Allow users to upload an unseen MRI image and receive a prediction with confidence.
+Allow users to upload an unseen MRI image.
+
+Display the predicted category and model confidence.
 
 🗂️ Dataset
 
-The project uses a Brain Tumor MRI dataset containing MRI images organized into four classes.
-
-Classes
+The project uses a Brain Tumor MRI dataset containing images organized into four classes.
 
 Class
 
@@ -52,15 +53,15 @@ Description
 
 Glioma
 
-MRI images containing Glioma tumors
+MRI images containing glioma tumors
 
 Meningioma
 
-MRI images containing Meningioma tumors
+MRI images containing meningioma tumors
 
 Pituitary
 
-MRI images containing Pituitary tumors
+MRI images containing pituitary tumors
 
 No Tumor
 
@@ -70,19 +71,40 @@ The project report identifies the dataset as the Brain Tumor MRI Dataset from Ka
 
 https://www.kaggle.com/datasets/masoudnickparvar/brain-tumor-mri-dataset
 
-The dataset is organized into:
+Dataset Structure
 
 dataset/
 ├── Training/
+│   ├── glioma/
+│   ├── meningioma/
+│   ├── notumor/
+│   └── pituitary/
+│
 └── Testing/
+    ├── glioma/
+    ├── meningioma/
+    ├── notumor/
+    └── pituitary/
+
+The repository includes the Testing dataset with approximately 1,600 MRI images organized into the four classification categories.
 
 🏗️ Project Structure
 
 Medical_Image_Classification/
 │
+├── app.py
 ├── dataset/
 │   ├── Training/
+│   │   ├── glioma/
+│   │   ├── meningioma/
+│   │   ├── notumor/
+│   │   └── pituitary/
+│   │
 │   └── Testing/
+│       ├── glioma/
+│       ├── meningioma/
+│       ├── notumor/
+│       └── pituitary/
 │
 ├── models/
 │   ├── brain_tumor_model.keras
@@ -94,13 +116,11 @@ Medical_Image_Classification/
 ├── sample_images/
 │   └── Test.jpg
 │
-├── venv/
-│   └── # Local Python virtual environment - should not be uploaded to GitHub
-│
 ├── .gitignore
+├── requirements.txt
 └── README.md
 
-Note: The Streamlit application file is not visible in the folder structure shown with this project documentation. If your Streamlit file has a different name/location, use that filename in the run command below.
+Note: The venv/ virtual environment is used locally and is intentionally excluded from GitHub through .gitignore.
 
 🛠️ Technologies Used
 
@@ -128,19 +148,13 @@ Git & GitHub
 
 1. Dataset Collection
 
-MRI images are collected and organized into training and testing directories.
+MRI images are collected and organized into separate training and testing directories.
 
 2. Image Preprocessing
 
-The images are:
+The images are resized to 224 × 224 pixels, converted into image arrays, and normalized by scaling pixel values to the range 0–1.
 
-Resized to 224 × 224 pixels
-
-Converted into image arrays
-
-Normalized by scaling pixel values to the range 0–1
-
-Example preprocessing used in the project:
+Example:
 
 img = img.resize((224, 224))
 img_array = image.img_to_array(img)
@@ -154,8 +168,6 @@ Data augmentation is applied during the training process to improve model genera
 4. CNN Model
 
 A Convolutional Neural Network automatically learns visual features from MRI images, including patterns, textures, and shapes.
-
-The CNN performs:
 
 Input MRI Image
        ↓
@@ -211,7 +223,7 @@ Training Loss
 
 Validation Loss
 
-The project report also discusses evaluation using unseen MRI images.
+The project also demonstrates prediction on unseen MRI images.
 
 🤖 Prediction Workflow
 
@@ -231,7 +243,7 @@ Find Predicted Class
        ↓
 Display Class + Confidence
 
-The prediction logic uses the class with the highest model probability:
+Example prediction logic:
 
 prediction = model.predict(img_array)
 predicted_class = class_names[np.argmax(prediction)]
@@ -239,11 +251,11 @@ confidence = np.max(prediction) * 100
 
 🌐 Streamlit Web Application
 
-The trained model is integrated into a Streamlit web application.
+The project includes an interactive Streamlit application implemented in app.py.
 
-The application allows users to:
+Features
 
-Upload an MRI image.
+Upload a brain MRI image.
 
 View the uploaded image.
 
@@ -253,64 +265,82 @@ Generate a prediction using the trained CNN.
 
 Display the predicted tumor category.
 
-Display the confidence percentage.
+Display the prediction confidence.
 
-Run the Streamlit Application
+Run the Application
 
-First activate your virtual environment.
-
-Windows
-
-venv\Scripts\activate
-
-Then run your Streamlit application:
-
-streamlit run <your_streamlit_file>.py
-
-For example, if your Streamlit file is named app.py:
-
-streamlit run app.py
-
-The application will then open in your browser.
-
-📦 Installation
-
-1. Clone the repository
-
-git clone <YOUR_GITHUB_REPOSITORY_URL>
-cd Medical_Image_Classification
-
-2. Create a virtual environment
+Create a virtual environment:
 
 python -m venv venv
 
-3. Activate the virtual environment
-
-Windows:
+Activate it on Windows:
 
 venv\Scripts\activate
 
-4. Install dependencies
-
-If a requirements.txt file is available:
+Install dependencies:
 
 pip install -r requirements.txt
 
-Otherwise, install the main project libraries:
+Run Streamlit:
 
-pip install tensorflow numpy matplotlib pillow streamlit jupyter
+streamlit run app.py
 
-5. Run the application
+The application will normally open at:
 
-streamlit run <your_streamlit_file>.py
+http://localhost:8501
+
+📦 Installation
+
+1. Clone the Repository
+
+git clone https://github.com/devanshu2003-tech/medical-image-classification-2.git
+cd medical-image-classification-2
+
+2. Create a Virtual Environment
+
+python -m venv venv
+
+3. Activate the Virtual Environment
+
+Windows PowerShell:
+
+venv\Scripts\activate
+
+4. Install Dependencies
+
+pip install -r requirements.txt
+
+5. Run the Application
+
+streamlit run app.py
 
 📓 Jupyter Notebook
 
-The notebook used for the project is:
+The complete Deep Learning workflow is available in:
 
 notebooks/Brain_Tumor_Classification.ipynb
 
-It contains the Deep Learning workflow for working with the MRI dataset, preprocessing, model development/training, evaluation, and prediction.
+The notebook covers:
+
+Dataset loading
+
+Image preprocessing
+
+Data augmentation
+
+CNN model development
+
+Model training
+
+Model evaluation
+
+Prediction
+
+Model saving
+
+Launch Jupyter Notebook with:
+
+jupyter notebook
 
 💾 Trained Models
 
@@ -320,7 +350,7 @@ models/
 ├── brain_tumor_model.keras
 └── final_brain_tumor_model.keras
 
-The project report shows the final model being loaded with:
+The final model can be loaded using:
 
 from tensorflow.keras.models import load_model
 
@@ -328,7 +358,7 @@ model = load_model("models/final_brain_tumor_model.keras")
 
 📊 Sample Prediction Results
 
-The project report presents sample predictions on unseen MRI images:
+The project report presents sample predictions on unseen MRI images.
 
 Test Image
 
@@ -360,7 +390,7 @@ No Tumor
 
 99.52%
 
-These values are the sample results documented in the project report and should not be interpreted as clinical accuracy or real-world diagnostic performance.
+These values represent sample prediction confidence documented in the project report. They should not be interpreted as clinical accuracy or real-world diagnostic performance.
 
 📁 Sample Image
 
@@ -368,7 +398,7 @@ A sample test image is included in:
 
 sample_images/Test.jpg
 
-You can use it to test the Streamlit application's upload and prediction workflow.
+It can be used to test the Streamlit application's image-upload and prediction workflow.
 
 🚀 Future Scope
 
@@ -378,11 +408,13 @@ Training on a larger and more diverse MRI dataset.
 
 Using advanced architectures such as ResNet, DenseNet, or EfficientNet.
 
-Implementing tumor segmentation to identify the tumor location.
+Implementing tumor segmentation to identify tumor location.
 
 Adding Explainable AI (XAI), such as Grad-CAM.
 
-Hyperparameter tuning and transfer learning.
+Hyperparameter tuning.
+
+Transfer learning.
 
 Deploying the application to cloud platforms.
 
@@ -394,20 +426,26 @@ Integrating with hospital information systems and PACS.
 
 This application is an educational Deep Learning project and is not a medical diagnostic tool.
 
-Predictions generated by the model should not be used as a substitute for examination, diagnosis, or treatment by a qualified medical professional.
+Predictions generated by the model should not be used as a substitute for examination, diagnosis, treatment, or advice from a qualified medical professional.
+
+Always consult a qualified healthcare professional for medical decisions.
 
 👨‍💻 Author
 
 Devanshu Wankhade
 
-Brain Tumor MRI Classification Using Deep Learning
+Project: Brain Tumor MRI Classification Using Deep Learning
 
 Technologies: Python | TensorFlow | Keras | CNN | Streamlit
 
 📚 References
 
+Dataset
+
 Brain Tumor MRI Dataset — Kaggle
 https://www.kaggle.com/datasets/masoudnickparvar/brain-tumor-mri-dataset
+
+Books
 
 Goodfellow, Ian, Yoshua Bengio, and Aaron Courville. Deep Learning. MIT Press, 2016.
 
@@ -415,8 +453,16 @@ François Chollet. Deep Learning with Python, 2nd Edition.
 
 Aurélien Géron. Hands-On Machine Learning with Scikit-Learn, Keras & TensorFlow, 3rd Edition.
 
-TensorFlow Documentation
+Documentation
+
+TensorFlow Documentation:
 https://www.tensorflow.org/
 
-Streamlit Documentation
+Streamlit Documentation:
 https://docs.streamlit.io/
+
+⭐ Project Repository
+
+GitHub Repository:
+
+https://github.com/devanshu2003-tech/medical-image-classification-2
